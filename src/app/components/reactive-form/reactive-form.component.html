@@ -1,0 +1,108 @@
+<mat-sidenav-container>
+  <h1 class="text-center">Reactive Form</h1>
+    <mat-sidenav-content>
+      <form [formGroup]="myForm" (ngSubmit)="submitForm()">
+        <!-- Name -->
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Name" formControlName="name" />
+          <mat-error *ngFor="let validation of validation_messages.name">
+            <mat-error class="error-message" *ngIf="myForm.get('name').hasError(validation.type)
+             && (myForm.get('name').dirty || myForm.get('name').touched)">
+             {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Email" formControlName="email" />
+          <mat-error *ngFor="let validation of validation_messages.email">
+            <mat-error class="error-message" *ngIf="myForm.get('email').hasError(validation.type)
+             && (myForm.get('email').dirty || myForm.get('email').touched)">
+             {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
+        
+        <!-- Password -->
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Password" formControlName="password" />
+            <mat-error *ngFor="let validation of validation_messages.password">
+              <mat-error class="error-message" *ngIf="myForm.get('password').hasError(validation.type)
+               && (myForm.get('password').dirty || myForm.get('password').touched)">
+               {{validation.message}}
+              </mat-error>
+            </mat-error>
+      </mat-form-field>
+
+        <!-- confirm password -->
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Confirm Password" formControlName="confirmPassword" />
+            <mat-error *ngFor="let validation of validation_messages.confirmPassword">
+              <mat-error class="error-message" *ngIf="myForm.get('confirmPassword').hasError(validation.type)
+               && (myForm.get('confirmPassword').dirty || myForm.get('confirmPassword').touched)">
+               {{validation.message}}
+              </mat-error>
+            </mat-error>
+        </mat-form-field>
+         
+           
+        <!-- Gender -->
+        <div class="misc-bottom-padding">
+          <mat-label>Gender:</mat-label>
+          <mat-radio-group aria-label="Select an option" formControlName="gender">
+            <mat-radio-button value="Male">Male</mat-radio-button>
+            <mat-radio-button value="Female">Female</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <!-- Date picker -->
+        <mat-form-field>
+          <input
+            matInput
+            readonly
+            [matDatepicker]="picker"
+            placeholder="Date of birth"
+            formControlName="dob"
+            (click)="picker.open()"
+            (dateChange)="date($event)"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <!-- Class -->
+        <mat-form-field>
+          <mat-label>Grade</mat-label>
+          <mat-select formControlName="grade">
+            <mat-option [value]="gradeArray" *ngFor="let gradeArray of GradeArray"
+              >{{ gradeArray }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Address -->
+        <mat-form-field class="example-full-width">
+            <textarea matInput rows="3" placeholder="Address" formControlName="address"></textarea>
+        </mat-form-field>
+
+        <!-- roles -->
+        <div *ngFor="let control of  rolesFieldAsFormArray.controls ;let i = index;" formArrayName='roles' >
+            <div [formGroupName]="i" >
+                <mat-form-field style="width: 86%">
+                <input matInput type="text"
+                    placeholder="Role" formControlName="role" >
+                </mat-form-field>
+                <button style="margin-left:10px" mat-raised-button color="warn" (click)="removeRoleControl(i)" >
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+           
+        </div>
+        <button mat-raised-button type="button" color="primary" (click)="addRoleControl()" > Add Role</button>
+        
+        <!-- Submit -->
+        <div class="button-wrapper submit-btn">
+          <button mat-raised-button type="submit" color="primary" [disabled]="myForm.invalid">Submit</button>
+        </div>
+      </form>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
