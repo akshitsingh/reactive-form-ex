@@ -62,12 +62,20 @@ export class ReactiveFormComponent implements OnInit {
      this.rolesFieldAsFormArray.push(this.role())
   }
 
-  /**Dynamically removing controls from a FormArray */
+  
+  /**
+   * Dynamically removing controls from a FormArray
+   * @param i Index of the roles form control array in the form
+   */
    removeRoleControl(i:number):void{
     this.rolesFieldAsFormArray.removeAt(i);
    }
 
    /* Date */
+   /**
+    * 
+    * @param e date picker event
+    */
    date(e) {
     var convertDate = new Date(e.target.value).toISOString().substring(0, 10);
     this.myForm.get('dob').setValue(convertDate, {
@@ -100,7 +108,9 @@ export class ReactiveFormComponent implements OnInit {
       { type: 'required', message: 'Confirm password is required' },
       { type: 'mustMatch', message: 'Password mismatch' }
     ],
-   
+    'address': [
+      { type: 'required', message: 'Address is required' }
+    ],
 
     
     }
