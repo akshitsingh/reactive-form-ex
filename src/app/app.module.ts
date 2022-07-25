@@ -21,9 +21,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
+import { ProfileFormComponent } from './components/profile-form/profile-form.component';
 
 @NgModule({
-  declarations: [AppComponent, ReactiveFormComponent],
+  declarations: [AppComponent, ReactiveFormComponent, ProfileFormComponent],
   imports: [
     BrowserModule,
     FormsModule,

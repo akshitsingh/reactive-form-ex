@@ -23,6 +23,7 @@ export class ReactiveFormComponent implements OnInit {
    
   ngOnInit(): void {
     this.reactiveForm();
+    this.addRoleControl();
   }
 
   /* Reactive form */
@@ -36,7 +37,8 @@ export class ReactiveFormComponent implements OnInit {
       address : ['',[Validators.required]],
       dob: ['', [Validators.required]],
       grade: [''],
-      roles : this.fb.array([])
+      roles : this.fb.array([]),
+      profile : ['']
     },
    {
    validator : CustomValidators.mustMatch('password', 'confirmPassword') // password must match with confirmpassword;
