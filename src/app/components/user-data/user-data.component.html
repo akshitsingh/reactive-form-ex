@@ -1,0 +1,17 @@
+ 
+
+
+<ng-container *ngIf="usersData?.profile">
+    <mat-list role="list">
+        <mat-list-item role="listitem">{{usersData.profile.email}}</mat-list-item>
+        <mat-list-item role="listitem">{{usersData.profile.password}}</mat-list-item>
+        <mat-list-item role="listitem">{{usersData.gender}}</mat-list-item>
+        <mat-list-item role="listitem">{{usersData.dob}}</mat-list-item>
+        <mat-list-item role="listitem">{{usersData.grade}}</mat-list-item>
+        <mat-list-item role="listitem">{{usersData.address}}</mat-list-item>
+        <mat-list-item role="listitem" *ngFor="let role of usersData.roles">{{role.role}}</mat-list-item>
+       </mat-list>
+    
+</ng-container>
+
+ 

@@ -1,6 +1,8 @@
+import { ApiService } from './../../services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from '../../validators/custom.validator';
+import { Router } from '@angular/router';
  
 /** Reactive form with all validation */
 @Component({
@@ -19,7 +21,7 @@ export class ReactiveFormComponent implements OnInit {
     '12th Grade',
   ];
 
-  constructor(public fb: FormBuilder) {}
+  constructor(public fb: FormBuilder,private api:ApiService,private router: Router) {}
    
   ngOnInit(): void {
     this.reactiveForm();
@@ -29,10 +31,6 @@ export class ReactiveFormComponent implements OnInit {
   /* Reactive form */
   reactiveForm() {
     this.myForm = this.fb.group({
-      name: ['', [Validators.required,Validators.minLength(5),Validators.maxLength(25)]],
-      email: ['', [Validators.required,Validators.email]],
-      password : ['',[Validators.required,Validators.minLength(8),CustomValidators.passwordStrengthValidator]],
-      confirmPassword : ['',[Validators.required]],
       gender: ['Male'],
       address : ['',[Validators.required]],
       dob: ['', [Validators.required]],
@@ -40,9 +38,6 @@ export class ReactiveFormComponent implements OnInit {
       roles : this.fb.array([]),
       profile : ['']
     },
-   {
-   validator : CustomValidators.mustMatch('password', 'confirmPassword') // password must match with confirmpassword;
-   }
   )}
 
 
@@ -88,6 +83,8 @@ export class ReactiveFormComponent implements OnInit {
   // submit the reactive form 
   submitForm(){
    console.log(this.myForm.value)
+   this.api.setUserProfileData(this.myForm.value)
+   this.router.navigate(['profile'])
   }
 
   /**Validation message */

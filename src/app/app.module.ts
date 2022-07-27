@@ -21,10 +21,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
+import {MatCardModule} from '@angular/material/card';
+
+//Components
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
+import { UserDataComponent } from './components/user-data/user-data.component';
 
 @NgModule({
-  declarations: [AppComponent, ReactiveFormComponent, ProfileFormComponent],
+  declarations: [AppComponent, ReactiveFormComponent, ProfileFormComponent, UserDataComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -43,7 +47,8 @@ import { ProfileFormComponent } from './components/profile-form/profile-form.com
     MatSelectModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent],
