@@ -12,7 +12,7 @@ body {
 }
 form {
     width: 680px;
-    margin: 35px auto 100px;
+    margin: 40px;
     padding: 40px;
     display: block;
     float: none;
@@ -39,4 +39,8 @@ form {
 }
 .example-full-width{
   padding: 5px 0px 25px 2px;
+}
+
+.ml-10{
+  margin-left: 10px !important;
 }

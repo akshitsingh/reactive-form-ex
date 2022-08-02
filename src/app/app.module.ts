@@ -22,10 +22,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import {MatCardModule} from '@angular/material/card';
+import {MatTableModule} from '@angular/material/table';
+
 
 //Components
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
 import { UserDataComponent } from './components/user-data/user-data.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { AppState } from './appstate';
 
 @NgModule({
   declarations: [AppComponent, ReactiveFormComponent, ProfileFormComponent, UserDataComponent],
@@ -48,7 +54,12 @@ import { UserDataComponent } from './components/user-data/user-data.component';
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCardModule
+    MatCardModule,
+    MatTableModule,
+    StoreModule.forRoot(AppState),
+    StoreDevtoolsModule.instrument({
+       maxAge: 25, logOnly: environment.production
+       }),
   ],
   providers: [],
   bootstrap: [AppComponent],

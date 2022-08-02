@@ -1,19 +1,20 @@
-<mat-sidenav-container>
-    <mat-sidenav-content>
+ 
+  <div class="d-flex">
+    <div>
       <form [formGroup]="myForm" (ngSubmit)="submitForm()">
         <h1 class="text-center">Reactive Form</h1>
         
         <div class="row">
-
+  
           <app-profile-form formControlName="profile"></app-profile-form >
-
+  
              <!-- Name -->
           
           <!-- Email -->
          
         </div>
        
-
+  
       <div class="row">
          <!-- Password -->
          
@@ -21,21 +22,21 @@
          
       </div>
        
-
+  
        <div class="row">
          <!-- Gender -->
         <div class="col-md-6">
- <div class="misc-bottom-padding">
+  <div class="misc-bottom-padding">
   <mat-label>Gender:</mat-label>
   <mat-radio-group aria-label="Select an option" formControlName="gender">
     <mat-radio-button value="Male">Male</mat-radio-button>
     <mat-radio-button value="Female">Female</mat-radio-button>
   </mat-radio-group>
-</div>
+  </div>
         </div>
         <!-- Date picker -->
         <div class="col-md-6">
- <mat-form-field>
+  <mat-form-field>
   <input
     matInput
     readonly
@@ -47,26 +48,26 @@
   />
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
+  </mat-form-field>
         </div>
        </div>
            
        <div class="row">
         <!-- Grade -->
         <div class="col-md-6">
- 
- <mat-form-field style="margin-top: 38px;">
+  
+  <mat-form-field style="margin-top: 38px;">
   <mat-label>Grade *</mat-label>
   <mat-select formControlName="grade">
     <mat-option [value]="gradeArray" *ngFor="let gradeArray of GradeArray"
       >{{ gradeArray }}
     </mat-option>
   </mat-select>
-</mat-form-field>
+  </mat-form-field>
         </div>
          <!-- Address -->
         <div class="col-md-6">
- 
+  
   <mat-form-field class="example-full-width">
     <textarea matInput rows="3" placeholder="Address *" formControlName="address"></textarea>
     <mat-error *ngFor="let validation of validation_messages.address">
@@ -75,7 +76,7 @@
        {{validation.message}}
       </mat-error>
     </mat-error>
-</mat-form-field>
+  </mat-form-field>
         </div>
        </div>
        
@@ -100,12 +101,14 @@
         <button mat-raised-button type="button" color="primary" (click)="addRoleControl()" > Add Role</button>
         <!-- Submit -->
         <div class="button-wrapper submit-btn">
-          <button mat-raised-button type="submit" color="primary">Submit</button>
+          <button mat-raised-button type="submit" (click)="myForm.reset()">Reset</button>
+          <button class="ml-10" mat-raised-button type="submit" color="primary">{{update ? 'Update' : 'Submit'}}</button>
         </div>
        
       </form>
-      
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-
-  
+     </div>
+        
+        <div style="width:100% ;">
+          <app-user-data (editEvent)="setUserValueForm($event)"></app-user-data>
+        </div>
+  </div>

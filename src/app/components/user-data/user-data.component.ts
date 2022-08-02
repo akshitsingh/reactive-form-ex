@@ -1,7 +1,12 @@
-import { Subscription } from 'rxjs';
+import { getAllUsers, getUserDetail } from './../reactive-form/state/reactive-form.selecter';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { ApiService } from './../../services/api.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { UserReducerState } from '../reactive-form/state/reactive-form.reducer';
+import { User } from 'src/app/models/user.model';
+import { UserDeleteAction } from '../reactive-form/state/reactive-form.action';
+ 
 /** for Show the users profile data */
 @Component({
   selector: 'app-user-data',
@@ -9,19 +14,41 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./user-data.component.scss']
 })
 export class UserDataComponent implements OnInit,OnDestroy {
-  usersData : any ;
+  selectedUser : User  ;
+  @Output() editEvent = new EventEmitter()
   userSubscription : Subscription;
 
-  constructor(private api : ApiService) { }
+  displayedColumns: string[] = ['position', 'name', 'email','dob','gender','address','action'];
+  dataSource = [];
+
+  constructor(
+    private api : ApiService,
+    private store : Store<UserReducerState>
+    ) { }
 
   ngOnInit(): void {
-    this.getUserData();
+   this.userSubscription = this.store.select(getAllUsers).subscribe(res=>{
+      this.dataSource = res;
+    })
   }
 
-  getUserData():void{
-   this.userSubscription = this.api.usersData.subscribe(userData=>{
-      this.usersData = userData
+
+   //getUserDetail by id
+   getUserDetails(id){
+    this.store.select(getUserDetail,{id}).subscribe(user=>{
+       this.selectedUser = user;
     })
+    this.editEvent.emit(this.selectedUser)
+  }
+
+
+  /**
+   * User delete by id
+   * @param id user id 
+   */
+  userDelete(id){
+    console.log(id)
+    this.store.dispatch(UserDeleteAction({id}))
   }
 
   ngOnDestroy(): void {

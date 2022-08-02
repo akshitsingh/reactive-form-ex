@@ -1,8 +1,13 @@
+import { getUserDetail, getAllUsers } from './state/reactive-form.selecter';
+import { UserAddAction, UserEditAction } from './state/reactive-form.action';
+import { UserReducerState } from './state/reactive-form.reducer';
 import { ApiService } from './../../services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from '../../validators/custom.validator';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
+import { Store } from '@ngrx/store';
  
 /** Reactive form with all validation */
 @Component({
@@ -12,6 +17,8 @@ import { Router } from '@angular/router';
 })
 export class ReactiveFormComponent implements OnInit {
   myForm: FormGroup;
+  update : boolean = false;
+  totalUsers : number;
 
   GradeArray: any = [
     '8th Grade',
@@ -21,11 +28,17 @@ export class ReactiveFormComponent implements OnInit {
     '12th Grade',
   ];
 
-  constructor(public fb: FormBuilder,private api:ApiService,private router: Router) {}
+  constructor(
+    public fb: FormBuilder,
+    private api:ApiService,
+    private router: Router,
+    private store : Store<UserReducerState>
+    ) {}
    
   ngOnInit(): void {
     this.reactiveForm();
     this.addRoleControl();
+    this.getAllUsers();   //get all users 
   }
 
   /* Reactive form */
@@ -52,6 +65,14 @@ export class ReactiveFormComponent implements OnInit {
     return this.fb.group({
       role: [''],
     });
+  }
+
+
+  //getAllUsers
+  getAllUsers(){
+    this.store.select(getAllUsers).subscribe(res=>{
+      this.totalUsers = res.length
+    })
   }
 
   /**Add role new control in our roles formcontrol */
@@ -82,10 +103,42 @@ export class ReactiveFormComponent implements OnInit {
 
   // submit the reactive form 
   submitForm(){
-   console.log(this.myForm.value)
-   this.api.setUserProfileData(this.myForm.value)
-   this.router.navigate(['profile'])
+    let data = {...this.myForm.value,id : this.totalUsers + 1}
+    this.store.dispatch(UserAddAction({user : data}))  //call useraddaction 
+    this.myForm.reset();
   }
+
+  //Update user detail 
+  updateUser(){
+    this.store.dispatch(UserEditAction({user : this.myForm.value}))
+  }
+
+  /**
+   * patch value into form
+   * @param user get selected user value from event from child on edit event
+   */
+  setUserValueForm(user){
+    this.update = true
+    this.myForm.patchValue({
+       id : user.id,
+       profile : {
+        name : user.profile.name,
+        email : user.profile.email,
+       password : user.profile.password,
+       confirmPassword : 'Akshit@12',
+       } ,
+       dob :new Date(user.dob),
+       gender : user.gender,
+       address : user.address,
+       grade : user.grade
+    })
+    // user.roles.forEach(element => {
+    //    this.rolesFieldAsFormArray.push({})
+    // });
+  }
+
+   
+  
 
   /**Validation message */
   validation_messages = {
