@@ -19,9 +19,27 @@ export class ApiService {
      this._dataSource.next(user)
 }
 
+/**Add new User */
+addNewUser(user:User):Observable<User>{
+  return this.http.post<User>('http://localhost:3000/users',user)
+}
+
  /**Get all users */
   getAllUsers():Observable<User>{
     return this.http.get<User>('http://localhost:3000/users')
   }
+
+  /**Update user  */
+  updateUser(user:User):Observable<User>{
+    console.log("user",user)
+    return this.http.put<User>(`http://localhost:3000/users/${user.id}`,user);
+  }
+
+  /**delete user by id  */
+  deleteUser(id):Observable<User>{
+    return this.http.delete<User>(`http://localhost:3000/users/${id}`);
+  }
+
+
 
 }

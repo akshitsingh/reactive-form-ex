@@ -34,7 +34,7 @@ import { environment } from 'src/environments/environment';
 import { AppState } from './appstate';
 import { HttpClientModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
-import { ReactiveFormEffects } from './components/reactive-form/state/reactive-form.effec';
+import { ReactiveFormEffects } from './components/reactive-form/state/reactive-form.effects';
 
 @NgModule({
   declarations: [AppComponent, ReactiveFormComponent, ProfileFormComponent, UserDataComponent],

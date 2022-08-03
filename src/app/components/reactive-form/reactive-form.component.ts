@@ -1,5 +1,5 @@
 import { getUserDetail, getAllUsers } from './state/reactive-form.selecter';
-import { UserAddAction, UserEditAction } from './state/reactive-form.action';
+import { UserAddAction, UserUpdateAction } from './state/reactive-form.action';
 import { UserReducerState } from './state/reactive-form.reducer';
 import { ApiService } from './../../services/api.service';
 import { Component, OnInit } from '@angular/core';
@@ -44,6 +44,7 @@ export class ReactiveFormComponent implements OnInit {
   /* Reactive form */
   reactiveForm() {
     this.myForm = this.fb.group({
+      id : [''],
       gender: ['Male'],
       address : ['',[Validators.required]],
       dob: ['', [Validators.required]],
@@ -103,14 +104,20 @@ export class ReactiveFormComponent implements OnInit {
 
   // submit the reactive form 
   submitForm(){
-    let data = {...this.myForm.value,id : this.totalUsers + 1}
-    this.store.dispatch(UserAddAction({user : data}))  //call useraddaction 
-    this.myForm.reset();
+    if(!this.update){
+      let data = {...this.myForm.value,id : this.totalUsers + 1}
+      this.store.dispatch(UserAddAction({user : data}))  //call useraddaction 
+      this.myForm.reset();
+    }
+    else{
+      this.updateUser();
+    }
+   
   }
 
   //Update user detail 
   updateUser(){
-    this.store.dispatch(UserEditAction({user : this.myForm.value}))
+    this.store.dispatch(UserUpdateAction({user : this.myForm.value}))
   }
 
   /**
@@ -127,14 +134,11 @@ export class ReactiveFormComponent implements OnInit {
        password : user.profile.password,
        confirmPassword : 'Akshit@12',
        } ,
-       dob :new Date(user.dob),
+       dob : new Date(user.dob).toISOString().substring(0, 10),
        gender : user.gender,
        address : user.address,
        grade : user.grade
     })
-    // user.roles.forEach(element => {
-    //    this.rolesFieldAsFormArray.push({})
-    // });
   }
 
    
