@@ -1,4 +1,5 @@
-import { getAllUsers, getUserDetail } from './../reactive-form/state/reactive-form.selecter';
+import { userListRequestAction } from './../reactive-form/state/reactive-form.action';
+ import { getAllUsers, getUserDetail } from './../reactive-form/state/reactive-form.selecter';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { ApiService } from './../../services/api.service';
@@ -19,7 +20,7 @@ export class UserDataComponent implements OnInit,OnDestroy {
   userSubscription : Subscription;
 
   displayedColumns: string[] = ['position', 'name', 'email','dob','gender','address','action'];
-  dataSource = [];
+  dataSource:User[] = [];
 
   constructor(
     private api : ApiService,
@@ -27,6 +28,11 @@ export class UserDataComponent implements OnInit,OnDestroy {
     ) { }
 
   ngOnInit(): void {
+  //  this.api.getAllUsers().subscribe((res)=>{
+  //    console.log("Ress",res)
+  //   //  this.dataSource = res;
+  //  })
+   this.store.dispatch(userListRequestAction());
    this.userSubscription = this.store.select(getAllUsers).subscribe(res=>{
       this.dataSource = res;
     })

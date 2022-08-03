@@ -10,17 +10,7 @@ export interface UserReducerState{
 }
 
 const initialState:UserReducerState = {
-   users : [
-    {
-    id : 1,
-    gender: 'Male',
-    address : 'Saharanpur',
-    dob: '1-10-1996',
-    grade: '8th Grade',
-    roles : [],
-    profile : { name : 'akshit',email : 'akshit48@gmail.com',password : '12345'}
-   }
-],
+   users : [],
    loading : false,
    loaded : false,
    error : false
@@ -29,7 +19,7 @@ const initialState:UserReducerState = {
 export const _userReducer = createReducer(
     initialState,
     on(userListRequestAction,(state)=>({...state,loading : true})),
-    on(userListSuccessAction,(state,{users})=>{
+    on(userListSuccessAction,(state,{users}):UserReducerState=>{
         const data = state.users.concat(users);
         return {...state,users : data, loading : false,loaded : true,error:false}
     }),

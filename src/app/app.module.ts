@@ -32,11 +32,15 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { AppState } from './appstate';
+import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { ReactiveFormEffects } from './components/reactive-form/state/reactive-form.effec';
 
 @NgModule({
   declarations: [AppComponent, ReactiveFormComponent, ProfileFormComponent, UserDataComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -56,11 +60,13 @@ import { AppState } from './appstate';
     MatNativeDateModule,
     MatCardModule,
     MatTableModule,
+    EffectsModule.forRoot([ReactiveFormEffects]),
     StoreModule.forRoot(AppState),
     StoreDevtoolsModule.instrument({
        maxAge: 25, logOnly: environment.production
        }),
   ],
+  
   providers: [],
   bootstrap: [AppComponent],
 })
