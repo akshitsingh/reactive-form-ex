@@ -15,6 +15,7 @@ export class ReactiveFormEffects {
 
     constructor(private actions$: Actions,private api : ApiService) {}
 
+    /**Load all users */
     loadUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(userListRequestAction),

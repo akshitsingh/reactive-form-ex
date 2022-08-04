@@ -55,7 +55,6 @@ export const _userReducer = createReducer(
     };
   }),
   on(UserDeleteSuccessAction, (state, { id }) => {
-    console.log('userdleteion', id);
     const users = state.users.filter((item) => item.id != id);
     return {
       ...state,
